@@ -16,8 +16,9 @@ app.set("trust proxy", 1);
 
 // 🔥 Restoring your robust array-based CORS setup
 const allowedOrigins = [
-  "http://localhost:5173", 
-  "https://the-api-community.vercel.app" // Ensure there is NO trailing slash here
+  "http://localhost:5173",
+  "https://frontend-api-black.vercel.app", // The FRONTEND URL goes here, NOT the backend URL
+  "https://theapicommunity.com"
 ];
 
 // Add FRONTEND_URL from Render env variables if it exists
@@ -54,19 +55,19 @@ app.use("/api/user", userRoutes);
 // 🔥 THE MAGIC ERROR HANDLER 🔥
 // This intercepts crashes and forces Express to send JSON instead of HTML
 app.use((err, req, res, next) => {
-    console.error("🚨 BACKEND CRASH:", err);
-    
-    // Check if it's a file upload error
-    if (err.name === 'MulterError') {
-        return res.status(400).json({ success: false, message: `Multer Error: ${err.message}`, field: err.field });
-    }
+  console.error("🚨 BACKEND CRASH:", err);
 
-    // Default to 500 Server Error
-    res.status(500).json({ 
-        success: false, 
-        message: "Server encountered an error before reaching the controller", 
-        error: err.message || "Unknown Error"
-    });
+  // Check if it's a file upload error
+  if (err.name === 'MulterError') {
+    return res.status(400).json({ success: false, message: `Multer Error: ${err.message}`, field: err.field });
+  }
+
+  // Default to 500 Server Error
+  res.status(500).json({
+    success: false,
+    message: "Server encountered an error before reaching the controller",
+    error: err.message || "Unknown Error"
+  });
 });
 
 const PORT = process.env.PORT || 5001;
