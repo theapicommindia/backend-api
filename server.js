@@ -18,7 +18,7 @@ app.set("trust proxy", 1);
 const allowedOrigins = [
   "http://localhost:5173",
   "https://frontend-api-black.vercel.app", // The FRONTEND URL goes here, NOT the backend URL
-  "https://theapicommunity.com"
+  "https://theapicommunity.org"
 ];
 
 // Add FRONTEND_URL from Render env variables if it exists
